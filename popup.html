@@ -4,13 +4,19 @@
 		<link rel="stylesheet" type="text/css" href="popup.css" />
 	</head>
 	<body>
-		<h1>Bookmark Search</h1>
-		<input
-			id="searchInput"
-			type="text"
-			placeholder="Enter your question..."
-		/>
-		<button id="searchButton">Search</button>
+		<a href="popup.html" id="full-size" target="_blank"
+			>Open in full-size tab</a
+		>
+		<h1>BookmarkGPT</h1>
+		<a href="settings.html" target="_blank">Settings</a>
+		<form id="searchForm">
+			<input
+				id="searchInput"
+				type="text"
+				placeholder="Enter your question on your bookmarks..."
+			/>
+			<button id="searchButton" type="submit">Search</button>
+		</form>
 		<div id="result"></div>
 		<script src="popup.js"></script>
 	</body>

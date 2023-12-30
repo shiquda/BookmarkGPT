@@ -1,18 +1,76 @@
 body {
-	width: 300px;
-	font-family: Arial, sans-serif;
+	width: 400px;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	height: auto;
+	background-color: #f4f4f4;
+	color: #333;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
 }
 
 #searchInput {
 	width: 100%;
-	padding: 5px;
+	padding: 15px 10px;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	font-size: 18px;
+	margin-bottom: 15px;
 }
 
 #searchButton {
 	margin-top: 5px;
 	width: 100%;
+	padding: 10px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#searchButton:hover {
+	background-color: #0056b3;
+}
+
+#searchButton:disabled {
+	background-color: rgb(134, 135, 136);
+}
+
+a {
+	font-size: 20px;
+	color: #007bff;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+#full-size {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	padding: 5px 10px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	font-size: 18px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+#full-size:hover {
+	background-color: #0056b3;
 }
 
 #result {
-	margin-top: 10px;
+	margin-top: 20px;
+	font-size: 16px;
+	line-height: 1.6;
+	word-wrap: break-word; /* 让文字自动换行 */
+	overflow: auto; /* 当内容超出容器，添加滚动条 */
 }

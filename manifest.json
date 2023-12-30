@@ -2,8 +2,8 @@
 	"manifest_version": 3,
 	"name": "BookmarkGPT",
 	"description": "Search bookmarks using GPT model",
-	"version": "1.0",
-	"permissions": ["bookmarks"],
+	"version": "0.1.1",
+	"permissions": ["bookmarks", "storage"],
 	"action": {
 		"default_popup": "popup.html",
 		"default_icon": {
