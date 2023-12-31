@@ -3,18 +3,22 @@ function submitQuestion() {
     chrome.runtime.sendMessage({ method: "searchBookmark", query: query }, function (response) {
         let gptResponse = response.result;
         // 使用正则表达式找到所有的URL
-        let urlMatches = gptResponse.match(/https?:\/\/[^"\s]*/g);
-        if (urlMatches) {
-            // 遍历所有的URL
-            urlMatches.forEach(function (urlMatch) {
-                let url = urlMatch.replace(/"/g, '');  // 去掉引号
-                let clickableUrl = `<a href="${url}" target="_blank">${url}</a>`;
-                // 替换原始URL为可点击的链接
-                gptResponse = gptResponse.replace(urlMatch, clickableUrl);
+        let urls = gptResponse.match(/https?:\/\/[^"\s\)\]]*/g);
+
+        if (urls) {
+            urls = [...new Set(urls)];  // 去重，避免重复替换相同的URL
+
+            urls.forEach(url => {
+                let cleanUrl = url.replace(/"/g, '');  // 去掉引号
+                let clickableUrl = `<a href="${cleanUrl}" target="_blank">${cleanUrl}</a>`;
+                // 使用split和join替换replace，以防止对相同的URL进行多次替换
+                gptResponse = gptResponse.split(url).join(clickableUrl);
             });
         }
+
         // 将换行符替换为HTML换行标签
         gptResponse = gptResponse.replace(/\n/g, '<br>');
+
         document.getElementById('result').innerHTML = gptResponse;
     });
 

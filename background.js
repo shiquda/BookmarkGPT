@@ -1,11 +1,12 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.method == "searchBookmark") {
-        chrome.storage.sync.get(['apiKey', 'model', 'domain'], function (items) {
+        chrome.storage.sync.get(['apiKey', 'model', 'domain', 'language'], function (items) {
             const apiKey = items.apiKey;
             const model = items.model;
             const domain = items.domain ? items.domain : "api.openai.com";
+            const language = items.language ? items.language : "English";
             // Call GPT model to get the answer
-            callGPTModel(request.query, apiKey, model, domain)
+            callGPTModel(request.query, apiKey, model, domain, language)
                 .then(gptResponse => {
                     // send the response back to popup.js
                     sendResponse({ result: gptResponse });
@@ -44,7 +45,7 @@ function traverseBookmarks(bookmarkTreeNodes, callback) {
     }
 }
 
-function callGPTModel(query, apiKey, selectedModel, domain) {
+function callGPTModel(query, apiKey, selectedModel, domain, language) {
     return new Promise((resolve, reject) => {
         getBookmarks(function (bookmarks) {
             fetch(`${domain}/v1/chat/completions`, {
@@ -57,11 +58,11 @@ function callGPTModel(query, apiKey, selectedModel, domain) {
                     stream: false,
                     model: selectedModel,
                     messages: [
-                        { role: "system", content: "You need to find the corresponding URL that meets his needs in the bookmarks provided by the user. You may need to speculate their possible uses based on the URL, the name of bookmark and your knowledge. You need to tell the user whether there is such a bookmark, and return **the description and URL** of the bookmark. Please use the same language as one after 'query:'." },
+                        { role: "system", content: `You need to find the corresponding URL that meets his needs from the bookmarks provided by the user. If there aren't any, select the three most likely bookmarks. You may need to speculate on their possible uses based on the URL, the name of the bookmark, and your knowledge. You need to inform the user whether such a bookmark exists, and return the description and URL of the bookmark. Please use ${language}.` },
                         { role: "user", content: `bookmarks:\n${bookmarks}\nquery:\n${query}` }
                     ],
                     temperature: 0.7,
-                    max_tokens: 500
+                    max_tokens: 1000
                 })
             })
                 .then(response => response.json())
